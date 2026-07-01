@@ -1,0 +1,47 @@
+/* ============================================================
+   TYPOGRAPHY — SampraSarana
+   Three roles, no more:
+   1. DISPLAY       — HN-BlackCond. Uppercase titles, nav labels.
+   2. DISPLAY-ITALIC— HN-BlackCondObl. Active nav state. Separate file, not a style.
+   3. UI            — HN-Roman. Buttons, controls, captions, tags.
+   4. BODY          — MyriadPro. Descriptors, paragraph copy.
+   ============================================================ */
+:root {
+  /* --- Font families --- */
+  --font-display:        'HN-BlackCond',    'Arial Narrow', sans-serif;
+  --font-display-italic: 'HN-BlackCondObl', 'Arial Narrow', sans-serif;
+  --font-ui:             'HN-Roman',        'Arial Narrow', sans-serif;
+  --font-body:           'MyriadPro',       'Georgia', serif;
+
+  /* --- Display scale (condensed, uppercase) --- */
+  --display-hero:   5rem;
+  --display-splash: 2.5rem;
+  --display-xl:     clamp(2.5rem, 6vw, 5rem);
+  --display-lg:     2.75rem;
+  --display-md:     2rem;
+  --display-sm:     1.5rem;
+
+  /* --- UI / body scale --- */
+  --text-lg:   1.125rem;
+  --text-base: 2rem;
+  --text-sm:   0.875rem;
+  --text-xs:   0.75rem;
+
+  /* --- Weights --- */
+  --weight-display: 400;   /* HN-BlackCond / HN-BlackCondObl load via font-family, not weight */
+  --weight-ui:      400;   /* HN-Roman */
+  --weight-body:    400;   /* MyriadPro */
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* --- Letter-spacing --- */
+  --tracking-display: 0.01em;
+  --tracking-nav:     0.005em;
+  --tracking-ui:      0.04em;
+  --tracking-body:    0;
+
+  /* --- Line-height --- */
+  --leading-tight: 0.92;
+  --leading-snug:  1.15;
+  --leading-body:  1.5;
+}

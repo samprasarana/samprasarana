@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Santiago Drews</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body>
+  <div class="page-home">
+    <img src="assets/logo-mark.png" alt="Santiago Drews" style="height: 150px;">
+
+    <nav class="splash-nav">
+      <a href="pictures/index.html">Pictures</a>
+      <div class="splash-divider"></div>
+      <span class="splash-nav-disabled-wrap" data-tooltip="Coming soon">
+        <span class="splash-nav-disabled">Games</span>
+      </span>
+      <div class="splash-divider"></div>
+      <span class="splash-nav-disabled-wrap" data-tooltip="Coming soon">
+        <span class="splash-nav-disabled">Words</span>
+      </span>
+    </nav>
+
+    <p class="descriptor" style="text-align: center;">
+      Concept art, videogame worlds, comics<br>
+      and the words that hold them together.
+    </p>
+  </div>
+
+  <div class="mouse-tooltip" id="mouse-tooltip"></div>
+  <script>
+    var tooltip = document.getElementById('mouse-tooltip');
+    var allDisabled = document.querySelectorAll('.splash-nav-disabled-wrap');
+
+    allDisabled.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        tooltip.textContent = el.dataset.tooltip || 'Coming soon';
+        tooltip.style.display = 'block';
+      });
+      el.addEventListener('mousemove', function(e) {
+        tooltip.style.left = e.clientX + 'px';
+        tooltip.style.top = e.clientY + 'px';
+      });
+      el.addEventListener('mouseleave', function() {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

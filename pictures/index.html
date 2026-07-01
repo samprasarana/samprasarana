@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pictures — Santiago Drews</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/mobile.css">
+</head>
+<body>
+  <div class="page-inner">
+
+    <aside class="section-rail">
+      <a href="../pictures/" class="active">
+        <img src="../assets/pictures_fucsia.png" alt="Pictures">
+      </a>
+      <span class="rail-disabled-wrap" data-tooltip="Coming soon">
+        <img src="../assets/games_black.png" alt="Games">
+      </span>
+      <span class="rail-disabled-wrap" data-tooltip="Coming soon">
+        <img src="../assets/words_black.png" alt="Words">
+      </span>
+    </aside>
+
+    <div class="left-col">
+      <div class="section-heading">
+        <span class="section-heading-desktop"><a href="/pictures">Pictures</a></span>
+        <h1 class="section-heading-mobile">Pictures</h1>
+      </div>
+      <p class="section-subheading">Character, creature, and prop design. Look but don't touch. Unless you're on mobile.</p>
+      <nav class="cat-nav">
+        <a href="people/">People</a>
+        <a href="monsters/">Monsters</a>
+        <a href="things/">Things</a>
+      </nav>
+      <button class="talk-btn" id="talk-btn">Talk to me</button>
+    </div>
+
+    <main class="main-content">
+
+      <div class="grid">
+        <div class="grid-tile"
+          data-full="../assets/thumbs/PicturesHighlights/1.png"
+          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          <img src="../assets/thumbs/PicturesHighlights_thumbs/1.png" alt="">
+        </div>
+        <div class="grid-tile"
+          data-full="../assets/thumbs/PicturesHighlights/2.png"
+          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          <img src="../assets/thumbs/PicturesHighlights_thumbs/2.png" alt="">
+        </div>
+        <div class="grid-tile"
+          data-full="../assets/thumbs/PicturesHighlights/3.png"
+          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          <img src="../assets/thumbs/PicturesHighlights_thumbs/3.png" alt="">
+        </div>
+        <div class="grid-tile"
+          data-full="../assets/thumbs/PicturesHighlights/4.png"
+          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          <img src="../assets/thumbs/PicturesHighlights_thumbs/4.png" alt="">
+        </div>
+        <div class="grid-tile"
+          data-full="../assets/thumbs/PicturesHighlights/5.png"
+          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          <img src="../assets/thumbs/PicturesHighlights_thumbs/5.png" alt="">
+        </div>
+        <div class="grid-tile"
+          data-full="../assets/thumbs/PicturesHighlights/6.png"
+          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          <img src="../assets/thumbs/PicturesHighlights_thumbs/6.png" alt="">
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <div class="modal" id="artwork-modal" aria-hidden="true">
+    <div class="modal-inner">
+      <img class="modal-image" src="" alt="">
+      <div class="modal-text">
+        <p class="modal-caption"></p>
+      </div>
+    </div>
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+  </div>
+
+  <div class="modal" id="talk-modal" aria-hidden="true">
+    <div class="talk-modal-inner">
+      <img src="../assets/talk-to-me.png" alt="Talk to me" class="talk-modal-img">
+      <p class="talk-modal-text">Words you want me to read go here:</p>
+      <p class="talk-modal-text">santiagodrews@gmail.com</p>
+    </div>
+    <button class="modal-close" id="talk-modal-close" aria-label="Close">✕</button>
+  </div>
+
+  <div class="mouse-tooltip" id="mouse-tooltip"></div>
+
+  <div class="mobile-sidebar" id="mobile-sidebar">
+    <button class="mobile-sidebar-close" id="mobile-sidebar-close">✕</button>
+    <nav class="mobile-sidebar-nav" id="mobile-sidebar-nav">
+      <!-- links injected by JS from cat-nav -->
+    </nav>
+    <!-- talk button injected by JS if present -->
+  </div>
+  <div class="mobile-sidebar-overlay" id="mobile-sidebar-overlay"></div>
+
+  <script src="../js/nav.js"></script>
+  <script>
+    var modal = document.getElementById('artwork-modal');
+    var modalImg = modal.querySelector('.modal-image');
+    var modalCaption = modal.querySelector('.modal-caption');
+    var modalClose = document.getElementById('modal-close');
+
+    document.querySelectorAll('.grid-tile').forEach(function(tile) {
+      tile.addEventListener('click', function() {
+        modalImg.src = tile.dataset.full;
+        modalCaption.textContent = tile.dataset.caption;
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function closeModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      modalImg.src = '';
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script>
+    var talkModal = document.getElementById('talk-modal');
+    var talkBtn = document.getElementById('talk-btn');
+    var talkClose = document.getElementById('talk-modal-close');
+
+    talkBtn.addEventListener('click', function() {
+      talkModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+
+    talkClose.addEventListener('click', closeTalkModal);
+
+    talkModal.addEventListener('click', function(e) {
+      if (e.target === talkModal) closeTalkModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeTalkModal();
+    });
+
+    function closeTalkModal() {
+      talkModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script>
+    document.querySelectorAll('.grid-tile img').forEach(function(img) {
+      img.addEventListener('error', function() {
+        var tile = img.closest('.grid-tile');
+        if (tile) tile.remove();
+      });
+      if (img.complete && !img.naturalWidth) {
+        img.dispatchEvent(new Event('error'));
+      }
+    });
+  </script>
+  <script>
+    var tooltip = document.getElementById('mouse-tooltip');
+    var allDisabled = document.querySelectorAll('.cat-nav-disabled-wrap, .rail-disabled-wrap');
+
+    allDisabled.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        tooltip.textContent = el.dataset.tooltip || 'Coming soon';
+        tooltip.style.display = 'block';
+      });
+
+      el.addEventListener('mousemove', function(e) {
+        tooltip.style.left = e.clientX + 'px';
+        tooltip.style.top = e.clientY + 'px';
+      });
+
+      el.addEventListener('mouseleave', function() {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

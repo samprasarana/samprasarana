@@ -1,0 +1,28 @@
+/* ============================================================
+   SampraSarana — global stylesheet entry point.
+   @import MUST come before @font-face (CSS spec).
+   ============================================================ */
+
+@import url('tokens/colors.css');
+@import url('tokens/typography.css');
+@import url('tokens/spacing.css');
+
+@font-face {
+  font-family: 'HN-BlackCond';
+  src: url('assets/fonts/HelveticaNeue-BlackCond.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'HN-BlackCondObl';
+  src: url('assets/fonts/HelveticaNeue-BlackCondObl.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'HN-Roman';
+  src: url('assets/fonts/HelveticaNeue-Roman.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'MyriadPro';
+  src: url('assets/fonts/MYRIADPRO-REGULAR.OTF') format('opentype');
+}

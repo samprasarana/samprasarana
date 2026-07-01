@@ -1,0 +1,63 @@
+/* ============================================================
+   SampraSarana — Design Tokens
+   ============================================================ */
+
+/* @font-face paths are relative to THIS CSS file → ../assets/fonts/ */
+@font-face {
+  font-family: 'HN-BlackCond';
+  src: url('../assets/fonts/HelveticaNeue-BlackCond.otf') format('opentype');
+}
+@font-face {
+  font-family: 'HN-BlackCondObl';
+  src: url('../assets/fonts/HelveticaNeue-BlackCondObl.otf') format('opentype');
+}
+@font-face {
+  font-family: 'HN-Roman';
+  src: url('../assets/fonts/HelveticaNeue-Roman.otf') format('opentype');
+}
+@font-face {
+  font-family: 'HN-Light';
+  src: url('../assets/fonts/HelveticaNeue-Light.otf') format('opentype');
+}
+@font-face {
+  font-family: 'HN-LightItal';
+  src: url('../assets/fonts/HelveticaNeue-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'MyriadPro';
+  src: url('../assets/fonts/MYRIADPRO-REGULAR.OTF') format('opentype');
+}
+
+:root {
+  /* Colors */
+  --color-accent:       #CB2474;
+  --color-black:        #000000;
+  --color-white:        #FFFFFF;
+  --color-hairline:     #E0E0E0;
+  --color-ink-60:       #666666;
+  --color-ink-30:       #B0B0B0;
+  --color-overlay:      rgba(0,0,0,0.82);
+  --color-placeholder:  #CCCCCC;
+
+  /* Fonts */
+  --font-display:        'HN-BlackCond',    'Arial Narrow', sans-serif;
+  --font-display-italic: 'HN-BlackCondObl', 'Arial Narrow', sans-serif;
+  --font-ui:             'HN-Roman',        'Arial Narrow', sans-serif;
+  --font-body:           'MyriadPro',       'Georgia', serif;
+
+  /* Type scale */
+  --display-hero: 5rem;
+  --display-md:   2.5rem;
+  --display-sm:   1.5rem;
+  --text-base:    1.5rem;
+  --text-sm:      0.875rem;
+
+  /* Rail */
+  --rail-width: 30px;
+  --rail-color: var(--color-accent);
+
+  /* Misc */
+  --border-frame:  1px;
+  --tracking-nav:  0.01em;
+  --tracking-ui:   0.08em;
+}

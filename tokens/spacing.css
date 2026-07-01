@@ -1,0 +1,29 @@
+/* ============================================================
+   SPACING & GEOMETRY — SampraSarana
+   Generous negative space is the point. The scale is roomy.
+   Corners are square (0 radius) — the brand is sharp and editorial.
+   ============================================================ */
+:root {
+  /* --- Spacing scale (8px base, but the system breathes wide) --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 40px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 160px;   /* splash-level negative space */
+
+  /* --- Radii — square by default --- */
+  --radius-none: 0px;
+  --radius-sm: 2px;   /* the absolute most we ever round */
+
+  /* --- Borders --- */
+  --border-thin: 1px;
+  --border-frame: 3px;     /* accent image frames in carousels */
+  --border-rule: 2px;      /* the thin vertical rules between nav labels */
+
+  /* --- Layout --- */
+  --maxw-content: 1200px;
+  --gutter: var(--space-5);
+}

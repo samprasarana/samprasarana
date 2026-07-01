@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pictures — Things — Santiago Drews</title>
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/mobile.css">
+</head>
+<body>
+  <div class="page-inner">
+
+    <aside class="section-rail">
+      <a href="../" class="active">
+        <img src="../../assets/pictures_fucsia.png" alt="Pictures">
+      </a>
+      <span class="rail-disabled-wrap" data-tooltip="Coming soon">
+        <img src="../../assets/games_black.png" alt="Games">
+      </span>
+      <span class="rail-disabled-wrap" data-tooltip="Coming soon">
+        <img src="../../assets/words_black.png" alt="Words">
+      </span>
+    </aside>
+
+    <div class="left-col">
+      <div class="section-heading">
+        <span class="section-heading-desktop"><a href="/pictures">Pictures</a></span>
+        <h1 class="section-heading-mobile">Things</h1>
+      </div>
+      <p class="section-subheading">People and monsters sometimes get the short end of the stick, but everyone likes things.</p>
+      <nav class="cat-nav">
+        <a href="../people/">People</a>
+        <a href="../monsters/">Monsters</a>
+        <a href="../things/" class="active">Things</a>
+      </nav>
+      <button class="talk-btn" id="talk-btn">Talk to me</button>
+    </div>
+
+    <main class="main-content">
+      <div class="grid">
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/1.png" data-caption="A single dragon scale turned into a shield."><img src="../../assets/thumbs/Things_thumb/1.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/2.png" data-caption="Items made for custom D&amp;D campaigns."><img src="../../assets/thumbs/Things_thumb/2.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/3.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/3.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/4.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/4.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/5.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/5.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/6.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/6.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/7.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/7.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/8.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/8.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/9.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/9.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/10.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/10.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/11.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/11.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/12.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/12.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/13.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/13.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/14.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/14.png" alt=""></div>
+        <div class="grid-tile" data-full="../../assets/thumbs/Things/15.png" data-caption="Lorem ipsum dolor sit amet."><img src="../../assets/thumbs/Things_thumb/15.png" alt=""></div>
+      </div>
+    </main>
+
+  </div>
+
+  <div class="modal" id="artwork-modal" aria-hidden="true">
+    <div class="modal-inner">
+      <img class="modal-image" src="" alt="">
+      <div class="modal-text">
+        <p class="modal-caption"></p>
+      </div>
+    </div>
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+  </div>
+
+  <div class="modal" id="talk-modal" aria-hidden="true">
+    <div class="talk-modal-inner">
+      <img src="../../assets/talk-to-me.png" alt="Talk to me" class="talk-modal-img">
+      <p class="talk-modal-text">Words you want me to read go here:</p>
+      <p class="talk-modal-text">santiagodrews@gmail.com</p>
+    </div>
+    <button class="modal-close" id="talk-modal-close" aria-label="Close">✕</button>
+  </div>
+
+  <div class="mouse-tooltip" id="mouse-tooltip"></div>
+
+  <div class="mobile-sidebar" id="mobile-sidebar">
+    <button class="mobile-sidebar-close" id="mobile-sidebar-close">✕</button>
+    <nav class="mobile-sidebar-nav" id="mobile-sidebar-nav">
+      <!-- links injected by JS from cat-nav -->
+    </nav>
+    <!-- talk button injected by JS if present -->
+  </div>
+  <div class="mobile-sidebar-overlay" id="mobile-sidebar-overlay"></div>
+
+  <script src="../../js/nav.js"></script>
+  <script>
+    var modal = document.getElementById('artwork-modal');
+    var modalImg = modal.querySelector('.modal-image');
+    var modalCaption = modal.querySelector('.modal-caption');
+    var modalClose = document.getElementById('modal-close');
+
+    document.querySelectorAll('.grid-tile').forEach(function(tile) {
+      tile.addEventListener('click', function() {
+        modalImg.src = tile.dataset.full;
+        modalCaption.innerHTML = tile.dataset.caption;
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function closeModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      modalImg.src = '';
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script>
+    var talkModal = document.getElementById('talk-modal');
+    var talkBtn = document.getElementById('talk-btn');
+    var talkClose = document.getElementById('talk-modal-close');
+
+    talkBtn.addEventListener('click', function() {
+      talkModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    });
+
+    talkClose.addEventListener('click', closeTalkModal);
+
+    talkModal.addEventListener('click', function(e) {
+      if (e.target === talkModal) closeTalkModal();
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeTalkModal();
+    });
+
+    function closeTalkModal() {
+      talkModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+  </script>
+  <script>
+    document.querySelectorAll('.grid-tile img').forEach(function(img) {
+      img.addEventListener('error', function() {
+        var tile = img.closest('.grid-tile');
+        if (tile) tile.remove();
+      });
+      if (img.complete && !img.naturalWidth) {
+        img.dispatchEvent(new Event('error'));
+      }
+    });
+  </script>
+  <script>
+    var tooltip = document.getElementById('mouse-tooltip');
+    var allDisabled = document.querySelectorAll('.cat-nav-disabled-wrap, .rail-disabled-wrap');
+
+    allDisabled.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        tooltip.textContent = el.dataset.tooltip || 'Coming soon';
+        tooltip.style.display = 'block';
+      });
+
+      el.addEventListener('mousemove', function(e) {
+        tooltip.style.left = e.clientX + 'px';
+        tooltip.style.top = e.clientY + 'px';
+      });
+
+      el.addEventListener('mouseleave', function() {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

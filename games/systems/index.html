@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Games — Systems — Santiago Drews</title>
+  <link rel="stylesheet" href="../../css/tokens.css">
+  <link rel="stylesheet" href="../../css/layout.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/mobile.css">
+</head>
+<body>
+  <div class="page-inner">
+
+    <aside class="section-rail">
+      <span class="rail-disabled-wrap" data-tooltip="Coming soon">
+        <img src="../../assets/pictures_black.png" alt="Pictures">
+      </span>
+      <a href="../" class="active">
+        <img src="../../assets/games_fucsia.png" alt="Games">
+      </a>
+      <span class="rail-disabled-wrap" data-tooltip="Coming soon">
+        <img src="../../assets/words_black.png" alt="Words">
+      </span>
+    </aside>
+
+    <div class="left-col">
+      <h1 class="section-heading">Games</h1>
+      <nav class="cat-nav">
+        <a href="../characters/">Characters</a>
+        <a href="../systems/" class="active">Systems</a>
+      </nav>
+    </div>
+
+    <main class="main-content">
+      <header class="page-header">
+        <p class="descriptor">Worlds built to be played —<br>art direction, key art, and in-game assets.</p>
+        <a href="/" title="Home">
+          <img src="../../assets/logo-mark.png" alt="Santiago Drews" class="logo-home">
+        </a>
+      </header>
+
+      <div class="section-title">
+        <span class="title-label">Systems</span>
+        <span class="title-count">4 works</span>
+      </div>
+
+      <div class="carousel">
+        <figure class="image-frame">
+          <div class="frame-box">
+            <div class="placeholder"><span>Inventory</span></div>
+          </div>
+          <figcaption>Inventory</figcaption>
+        </figure>
+        <figure class="image-frame">
+          <div class="frame-box">
+            <div class="placeholder"><span>World Map</span></div>
+          </div>
+          <figcaption>World Map</figcaption>
+        </figure>
+        <figure class="image-frame">
+          <div class="frame-box">
+            <div class="placeholder"><span>Skill Tree</span></div>
+          </div>
+          <figcaption>Skill Tree</figcaption>
+        </figure>
+        <figure class="image-frame">
+          <div class="frame-box">
+            <div class="placeholder"><span>Bestiary</span></div>
+          </div>
+          <figcaption>Bestiary</figcaption>
+        </figure>
+      </div>
+    </main>
+
+  </div>
+  <div class="mouse-tooltip" id="mouse-tooltip"></div>
+
+  <div class="mobile-sidebar" id="mobile-sidebar">
+    <button class="mobile-sidebar-close" id="mobile-sidebar-close">✕</button>
+    <nav class="mobile-sidebar-nav" id="mobile-sidebar-nav">
+      <!-- links injected by JS from cat-nav -->
+    </nav>
+    <!-- talk button injected by JS if present -->
+  </div>
+  <div class="mobile-sidebar-overlay" id="mobile-sidebar-overlay"></div>
+
+  <script src="../../js/nav.js"></script>
+  <script>
+    var tooltip = document.getElementById('mouse-tooltip');
+    var allDisabled = document.querySelectorAll('.cat-nav-disabled-wrap, .rail-disabled-wrap');
+
+    allDisabled.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        tooltip.textContent = el.dataset.tooltip || 'Coming soon';
+        tooltip.style.display = 'block';
+      });
+
+      el.addEventListener('mousemove', function(e) {
+        tooltip.style.left = e.clientX + 'px';
+        tooltip.style.top = e.clientY + 'px';
+      });
+
+      el.addEventListener('mouseleave', function() {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

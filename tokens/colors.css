@@ -1,0 +1,45 @@
+/* ============================================================
+   COLORS — SampraSarana
+   A strictly two-tone system (black / white) anchored by one
+   strong accent. No gradients. No tints beyond the few needed
+   for borders, overlays and disabled states.
+   ============================================================ */
+:root {
+  /* --- Base palette --- */
+  --color-accent: #CB2474;        /* primary fuchsia — the only chromatic color */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  /* Accent supporting shades (derived, used sparingly) */
+  --color-accent-press: #A71B5F;  /* darkened accent for press states */
+  --color-accent-soft: #F6D3E4;   /* 12% accent on white — faint fills only */
+
+  /* Neutral support (greys — used only for disabled / hairlines) */
+  --color-ink-60: #555555;        /* muted black, secondary text */
+  --color-ink-30: #B0B0B0;        /* disabled text / inactive */
+  --color-hairline: #E6E6E6;      /* faint rules where accent is too loud */
+  --color-overlay: rgba(0,0,0,0.55); /* scrim behind dialogs */
+
+  /* --- Semantic aliases --- */
+  --surface-page: var(--color-white);
+  --surface-inverse: var(--color-black);
+
+  --text-primary: var(--color-black);
+  --text-inverse: var(--color-white);
+  --text-accent: var(--color-accent);
+  --text-muted: var(--color-ink-60);
+  --text-disabled: var(--color-ink-30);
+
+  --border-accent: var(--color-accent);
+  --border-faint: var(--color-hairline);
+
+  /* Navigation state colors (per brand spec) */
+  --nav-default: var(--color-accent);     /* idle nav label */
+  --nav-active-bg: var(--color-white);     /* active nav: white background */
+  --nav-active-stroke: var(--color-accent);/* active nav: 1px text-stroke */
+  --nav-hover-decoration: underline;       /* @kind other */ /* hover underlines (never italic) */
+
+  /* Accent bar (the signature flush-left fuchsia rail) */
+  --rail-width: 30px;
+  --rail-color: var(--color-accent);
+}

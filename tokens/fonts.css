@@ -1,0 +1,35 @@
+/* ============================================================
+   FONTS — SampraSarana
+   Local licensed typefaces (no external CDN dependency).
+   - Display / Headings / Nav : Helvetica Neue Black Condensed
+   - UI / Actions             : Helvetica Neue Roman
+   - Body copy                : Myriad Pro Regular
+   ============================================================ */
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('../assets/fonts/HelveticaNeue-BlackCond.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('../assets/fonts/HelveticaNeue-BlackCondObl.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'HelveticaNeue';
+  src: url('../assets/fonts/HelveticaNeue-Roman.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MyriadPro';
+  src: url('../assets/fonts/MYRIADPRO-REGULAR.OTF') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
