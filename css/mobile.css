@@ -347,15 +347,20 @@
 
   .splash-nav {
     flex-direction: column;
-    border-top: 2px solid var(--color-black);
-    border-bottom: 2px solid var(--color-black);
+    border-top: none;
+    border-bottom: none;
+  }
+
+  .splash-nav a,
+  .splash-nav-disabled {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+    text-align: center;
+    justify-content: center;
   }
 
   .splash-nav a {
-    font-size: clamp(2.5rem, 12vw, 4rem);
     padding: 20px 24px;
-    justify-content: flex-start;
-    border-bottom: 1px solid var(--color-hairline);
+    border-bottom: none;
   }
 
   .splash-nav a:last-child {
@@ -363,6 +368,14 @@
   }
 
   .splash-divider {
+    display: none;
+  }
+
+  .descriptor {
+    text-align: center;
+  }
+
+  .descriptor br {
     display: none;
   }
 
