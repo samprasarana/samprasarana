@@ -77,6 +77,11 @@
   display: none;
 }
 
+.mobile-sidebar,
+.mobile-sidebar-overlay {
+  display: none;
+}
+
 .cat-nav-disabled-wrap {
   position: relative;
   cursor: default;
@@ -499,6 +504,10 @@
   margin: 0;
   text-align: center;
   line-height: 1.2;
+}
+
+.talk-modal-text--intro {
+  font-size: calc(var(--display-hero) / 2);
 }
 
 /* ── Subsection links (Games landing) ────────────────────── */
