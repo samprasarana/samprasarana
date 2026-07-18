@@ -96,7 +96,7 @@
     document.querySelectorAll('.grid-tile').forEach(function(tile) {
       tile.addEventListener('click', function() {
         modalImg.src = tile.dataset.full;
-        modalCaption.textContent = tile.dataset.caption;
+        modalCaption.innerHTML = tile.dataset.caption;
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
       });

@@ -41,37 +41,46 @@
     <main class="main-content">
 
       <div class="grid">
-        <div class="grid-tile"
+        <div id="pictures-01" class="grid-tile"
           data-full="../assets/thumbs/PicturesHighlights/1.png"
-          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          data-caption="Fan art of <em>Hornet</em> from <em>Hollow Knight</em>.">
           <img src="../assets/thumbs/PicturesHighlights_thumbs/1.png" alt="">
         </div>
-        <div class="grid-tile"
+        <div id="pictures-02" class="grid-tile"
           data-full="../assets/thumbs/PicturesHighlights/2.png"
-          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          data-caption="Selection of several faces, all based on the same set of geometric shapes.">
           <img src="../assets/thumbs/PicturesHighlights_thumbs/2.png" alt="">
         </div>
-        <div class="grid-tile"
+        <div id="pictures-03" class="grid-tile"
           data-full="../assets/thumbs/PicturesHighlights/3.png"
-          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          data-caption="Splash art of the main character of <em>Pischeva</em>. This was close to the final design.">
           <img src="../assets/thumbs/PicturesHighlights_thumbs/3.png" alt="">
         </div>
-        <div class="grid-tile"
+        <div id="pictures-04" class="grid-tile"
           data-full="../assets/thumbs/PicturesHighlights/4.png"
-          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          data-caption="A single dragon scale turned into a shield.">
           <img src="../assets/thumbs/PicturesHighlights_thumbs/4.png" alt="">
         </div>
-        <div class="grid-tile"
+        <div id="pictures-05" class="grid-tile"
           data-full="../assets/thumbs/PicturesHighlights/5.png"
-          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          data-caption="Items made for custom <em>D&amp;D</em> campaigns.">
           <img src="../assets/thumbs/PicturesHighlights_thumbs/5.png" alt="">
         </div>
-        <div class="grid-tile"
+        <div id="pictures-06" class="grid-tile"
           data-full="../assets/thumbs/PicturesHighlights/6.png"
-          data-caption="Lorem ipsum dolor sit amet, consectetur adipiscing elit.">
+          data-caption="Design of the main character of my comic book, <em>Pischeva</em>. Seems things might not go so well for her.">
           <img src="../assets/thumbs/PicturesHighlights_thumbs/6.png" alt="">
         </div>
-      </div>
+
+  <div class="grid-tile" id="pictures-07" data-full="../assets/thumbs/PicturesHighlights/7.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/7.png" alt=""></div>
+  <div class="grid-tile" id="pictures-08" data-full="../assets/thumbs/PicturesHighlights/8.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/8.png" alt=""></div>
+  <div class="grid-tile" id="pictures-09" data-full="../assets/thumbs/PicturesHighlights/9.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/9.png" alt=""></div>
+  <div class="grid-tile" id="pictures-10" data-full="../assets/thumbs/PicturesHighlights/10.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/10.png" alt=""></div>
+  <div class="grid-tile" id="pictures-11" data-full="../assets/thumbs/PicturesHighlights/11.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/11.png" alt=""></div>
+  <div class="grid-tile" id="pictures-12" data-full="../assets/thumbs/PicturesHighlights/12.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/12.png" alt=""></div>
+  <div class="grid-tile" id="pictures-13" data-full="../assets/thumbs/PicturesHighlights/13.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/13.png" alt=""></div>
+  <div class="grid-tile" id="pictures-14" data-full="../assets/thumbs/PicturesHighlights/14.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/14.png" alt=""></div>
+  <div class="grid-tile" id="pictures-15" data-full="../assets/thumbs/PicturesHighlights/15.png" data-caption="Lorem ipsum dolor sit amet."><img src="../assets/thumbs/PicturesHighlights_thumbs/15.png" alt=""></div></div>
     </main>
 
   </div>
@@ -116,7 +125,7 @@
     document.querySelectorAll('.grid-tile').forEach(function(tile) {
       tile.addEventListener('click', function() {
         modalImg.src = tile.dataset.full;
-        modalCaption.textContent = tile.dataset.caption;
+        modalCaption.innerHTML = tile.dataset.caption;
         modal.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
       });
