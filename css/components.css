@@ -146,9 +146,9 @@
   line-height: 1;
 }
 
-.splash-nav a:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.1em;
+.splash-nav a:hover span:not(.splash-nav-disabled){ 
+  background-color:  var(--color-accent);
+  color: white;
 }
 
 .splash-divider {
@@ -378,11 +378,11 @@
 
 .detail-page .section-heading-mobile {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-display-italic);
   font-size: 80px;
   text-transform: uppercase;
   color: var(--color-accent);
-  font-style: italic;
+  font-style: normal;
   line-height: 1;
   letter-spacing: var(--tracking-nav);
   margin: 0;
@@ -515,7 +515,7 @@
 .talk-btn {
   font-family: 'HN-LightItal', 'Arial Narrow', sans-serif;
   font-size: 60px;
-  font-style: italic;
+  font-style: normal;
   color: var(--color-accent);
   background: none;
   border: none;
