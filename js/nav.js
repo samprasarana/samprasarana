@@ -26,7 +26,10 @@ document.querySelectorAll('.section-rail a').forEach(function(link) {
   if (headingEl && sidebarNav) {
     var titleEl = document.createElement('span');
     titleEl.className = 'mobile-sidebar-title';
-    titleEl.textContent = headingEl.textContent.trim();
+    var titleLink = document.createElement('a');
+    titleLink.href = '/pictures';
+    titleLink.textContent = headingEl.textContent.trim();
+    titleEl.appendChild(titleLink);
     sidebar.insertBefore(titleEl, sidebarNav);
   }
 

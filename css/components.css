@@ -59,7 +59,7 @@
 }
 
 .cat-nav a:hover {
-  color: var(--color-white);  
+  color: var(--color-white);
   -webkit-text-stroke: 1px var(--color-accent);
 }
 
@@ -184,7 +184,7 @@
 /* ── Descriptor ──────────────────────────────────────────── */
 
 .descriptor {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 24px;
   color: var(--color-black);
   line-height: 1.4; 
@@ -320,7 +320,7 @@
 }
 
 .section-subheading {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 18px;
   color: var(--color-black);
   line-height: 1.4; 
@@ -349,6 +349,58 @@
 .section-heading-mobile {
   display: none;
   margin: 0;
+}
+
+/* ── Detail page overrides (Pictures subcategories) ──────── */
+
+.detail-page .cat-nav a {
+  font-size: 24px;
+}
+
+.detail-page .cat-nav a::after {
+  content: "•";
+  margin-left: 14px;
+}
+
+.detail-page .cat-nav a:last-child::after {
+  content: none;
+}
+
+.detail-page .section-heading-desktop a {
+  font-family: var(--font-display);
+  font-size: 20px;
+  text-transform: uppercase; 
+  color: var(--color-black);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.detail-page .section-heading-mobile {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 80px;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: var(--tracking-nav);
+  margin: 0;
+}
+
+/* ── Detail page overrides — desktop layout tweaks ───────── */
+
+.detail-page .cat-nav a {
+  font-size: 22px;
+}
+
+.detail-page .cat-nav {
+  flex-direction: row;
+  align-items: center;
+}
+
+.detail-page .section-heading-mobile {
+  font-size: 72px;
 }
 
 /* ── Grid (section landing) ──────────────────────────────── */
@@ -477,7 +529,8 @@
 }
 
 .talk-btn:hover {
-  text-decoration: underline;
+  background-color: var(--color-accent);
+  color: white;
 }
 
 /* ── Talk modal ──────────────────────────────────────────── */
