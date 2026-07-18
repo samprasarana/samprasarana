@@ -380,3 +380,14 @@
   }
 
 }
+
+/* ── Mobile homepage descriptor ── */
+@media (max-width: 768px) {
+  .descriptor-action-desktop {
+    display: none;
+  }
+
+  .descriptor-action-mobile {
+    display: block;
+  }
+}

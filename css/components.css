@@ -577,3 +577,12 @@
   flex: 0 0 auto;
   display: block;
 }
+
+/* ── Responsive homepage descriptor ── */
+.descriptor-action {
+  display: block;
+}
+
+.descriptor-action-mobile {
+  display: none;
+}
