@@ -646,3 +646,19 @@
   font-style: italic;
 }
 /* TALK BUTTON HOVER ITALIC END */
+
+/* GRID SINGLE-PAINT BORDERS START */
+.main-content .grid {
+  gap: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border-right: 1px solid var(--color-accent);
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.main-content .grid > .grid-tile {
+  border: 0 !important;
+  border-left: 1px solid var(--color-accent) !important;
+  border-top: 1px solid var(--color-accent) !important;
+}
+/* GRID SINGLE-PAINT BORDERS END */
