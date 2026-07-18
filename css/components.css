@@ -146,7 +146,7 @@
   line-height: 1;
 }
 
-.splash-nav a:hover span:not(.splash-nav-disabled){ 
+.splash-nav a:hover span:not(.splash-nav-disabled){
   background-color:  var(--color-accent);
   color: white;
 }
@@ -187,7 +187,7 @@
   font-family: var(--font-body);
   font-size: 24px;
   color: var(--color-black);
-  line-height: 1.4; 
+  line-height: 1.4;
   padding-bottom: 30px;
   margin: 0;
 }
@@ -323,7 +323,7 @@
   font-family: var(--font-body);
   font-size: 18px;
   color: var(--color-black);
-  line-height: 1.4; 
+  line-height: 1.4;
   border-bottom: 1px solid var(--color-accent);
   padding-bottom: 30px;
   margin-bottom: 0;
@@ -369,7 +369,7 @@
 .detail-page .section-heading-desktop a {
   font-family: var(--font-display);
   font-size: 20px;
-  text-transform: uppercase; 
+  text-transform: uppercase;
   color: var(--color-black);
   text-decoration: none;
   display: block;
@@ -408,7 +408,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px; 
+  gap: 16px;
   align-content: start;
 }
 
@@ -531,6 +531,7 @@
 .talk-btn:hover {
   background-color: var(--color-accent);
   color: white;
+  font-style: italic;
 }
 
 /* ── Talk modal ──────────────────────────────────────────── */
@@ -639,3 +640,9 @@
 .descriptor-action-mobile {
   display: none;
 }
+
+/* TALK BUTTON HOVER ITALIC START */
+.talk-btn:hover {
+  font-style: italic;
+}
+/* TALK BUTTON HOVER ITALIC END */
