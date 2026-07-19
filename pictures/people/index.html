@@ -93,49 +93,360 @@
   <script src="../../js/nav.js"></script>
   <script>
   var modal = document.getElementById('artwork-modal');
+  var modalInner = modal.querySelector('.modal-inner');
   var modalImg = modal.querySelector('.modal-image');
   var modalCaption = modal.querySelector('.modal-caption');
   var modalClose = document.getElementById('modal-close');
+  var artworkGrid = document.querySelector('.grid');
 
-  function showArtworkModal(imageSrc, captionHtml) {
-    modalImg.src = imageSrc;
-    modalCaption.innerHTML = captionHtml || '';
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+  var currentArtworkTileId = null;
+  var touchStartX = null;
+  var touchStartY = null;
+  var touchStartTime = null;
+  var touchStartedAtEdge = false;
+
+  var modalImageStage = modal.querySelector('.modal-image-stage');
+  var previousArtworkButton = null;
+  var nextArtworkButton = null;
+
+  function createArtworkArrow(direction) {
+    var button = document.createElement('button');
+    var isPrevious = direction === 'previous';
+
+    button.type = 'button';
+    button.className =
+      'modal-nav-arrow modal-nav-arrow--' + direction;
+
+    button.setAttribute(
+      'aria-label',
+      isPrevious ? 'Previous image' : 'Next image'
+    );
+
+    button.title = isPrevious
+      ? 'Previous image (Left Arrow)'
+      : 'Next image (Right Arrow)';
+
+    var points = isPrevious
+      ? '18,4 6,24 18,44'
+      : '6,4 18,24 6,44';
+
+    button.innerHTML =
+      '<svg viewBox="0 0 24 48" aria-hidden="true" focusable="false">' +
+        '<polyline class="modal-nav-arrow-outline" points="' + points + '"></polyline>' +
+        '<polyline class="modal-nav-arrow-stroke" points="' + points + '"></polyline>' +
+      '</svg>';
+
+    return button;
   }
 
-  function hideArtworkModal() {
-    modal.setAttribute('aria-hidden', 'true');
-    modalImg.src = '';
-    modalCaption.innerHTML = '';
-    document.body.style.overflow = '';
+  function prepareArtworkNavigation() {
+    if (!modalInner || !modalImg) {
+      return;
+    }
+
+    if (!modalImageStage) {
+      modalImageStage = document.createElement('div');
+      modalImageStage.className = 'modal-image-stage';
+
+      modalImg.parentNode.insertBefore(
+        modalImageStage,
+        modalImg
+      );
+
+      modalImageStage.appendChild(modalImg);
+    }
+
+    previousArtworkButton =
+      modalImageStage.querySelector(
+        '.modal-nav-arrow--previous'
+      );
+
+    nextArtworkButton =
+      modalImageStage.querySelector(
+        '.modal-nav-arrow--next'
+      );
+
+    if (!previousArtworkButton) {
+      previousArtworkButton =
+        createArtworkArrow('previous');
+
+      modalImageStage.insertBefore(
+        previousArtworkButton,
+        modalImg
+      );
+    }
+
+    if (!nextArtworkButton) {
+      nextArtworkButton =
+        createArtworkArrow('next');
+
+      modalImageStage.appendChild(
+        nextArtworkButton
+      );
+    }
+
+    previousArtworkButton.addEventListener(
+      'click',
+      function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateArtwork(-1);
+      }
+    );
+
+    nextArtworkButton.addEventListener(
+      'click',
+      function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navigateArtwork(1);
+      }
+    );
   }
 
-  function artworkModalIsOpen() {
-    return modal.getAttribute('aria-hidden') === 'false';
+  function getGalleryTiles() {
+    return Array.prototype.slice.call(
+      document.querySelectorAll('.grid-tile')
+    ).filter(function(tile) {
+      return tile.isConnected;
+    });
   }
 
-  function openArtworkModal(tile) {
-    var modalState = {
+  function createArtworkState(tile) {
+    return {
       artworkModal: true,
+      artworkTileId: tile.id || '',
       artworkImageSrc: tile.dataset.full,
       artworkCaptionHtml: tile.dataset.caption || ''
     };
+  }
+
+  function artworkModalIsOpen() {
+    return (
+      modal.getAttribute('aria-hidden') === 'false'
+    );
+  }
+
+  function findCurrentArtworkIndex(tiles) {
+    var index = -1;
+
+    if (currentArtworkTileId) {
+      index = tiles.findIndex(function(tile) {
+        return tile.id === currentArtworkTileId;
+      });
+    }
+
+    if (
+      index === -1 &&
+      history.state &&
+      history.state.artworkImageSrc
+    ) {
+      index = tiles.findIndex(function(tile) {
+        return (
+          tile.dataset.full ===
+          history.state.artworkImageSrc
+        );
+      });
+    }
+
+    if (index === -1) {
+      var currentSrc =
+        modalImg.getAttribute('src');
+
+      index = tiles.findIndex(function(tile) {
+        return tile.dataset.full === currentSrc;
+      });
+    }
+
+    return index;
+  }
+
+  function updateArtworkNavigation() {
+    if (
+      !previousArtworkButton ||
+      !nextArtworkButton
+    ) {
+      return;
+    }
+
+    if (!artworkModalIsOpen()) {
+      previousArtworkButton.hidden = true;
+      nextArtworkButton.hidden = true;
+      return;
+    }
+
+    var tiles = getGalleryTiles();
+    var currentIndex =
+      findCurrentArtworkIndex(tiles);
+
+    var hasPrevious =
+      currentIndex > 0;
+
+    var hasNext =
+      currentIndex >= 0 &&
+      currentIndex < tiles.length - 1;
+
+    previousArtworkButton.hidden =
+      !hasPrevious;
+
+    previousArtworkButton.disabled =
+      !hasPrevious;
+
+    nextArtworkButton.hidden =
+      !hasNext;
+
+    nextArtworkButton.disabled =
+      !hasNext;
+  }
+
+  function preloadAdjacentArtwork() {
+    var tiles = getGalleryTiles();
+
+    if (tiles.length < 2) {
+      return;
+    }
+
+    var currentIndex =
+      findCurrentArtworkIndex(tiles);
+
+    if (currentIndex === -1) {
+      return;
+    }
+
+    var adjacentSources = [];
+
+    if (currentIndex > 0) {
+      adjacentSources.push(
+        tiles[currentIndex - 1].dataset.full
+      );
+    }
+
+    if (currentIndex < tiles.length - 1) {
+      adjacentSources.push(
+        tiles[currentIndex + 1].dataset.full
+      );
+    }
+
+    adjacentSources.forEach(function(src) {
+      var image = new Image();
+      image.src = src;
+    });
+  }
+
+  function showArtworkModal(
+    imageSrc,
+    captionHtml,
+    tileId
+  ) {
+    currentArtworkTileId =
+      tileId || null;
+
+    modalImg.src = imageSrc;
+    modalCaption.innerHTML =
+      captionHtml || '';
+
+    modal.setAttribute(
+      'aria-hidden',
+      'false'
+    );
+
+    document.body.style.overflow =
+      'hidden';
+
+    updateArtworkNavigation();
+    preloadAdjacentArtwork();
+  }
+
+  function hideArtworkModal() {
+    modal.setAttribute(
+      'aria-hidden',
+      'true'
+    );
+
+    modalImg.src = '';
+    modalCaption.innerHTML = '';
+    document.body.style.overflow = '';
+
+    currentArtworkTileId = null;
+
+    resetArtworkTouch();
+    updateArtworkNavigation();
+  }
+
+  function displayArtworkTile(
+    tile,
+    historyMode
+  ) {
+    var modalState =
+      createArtworkState(tile);
 
     showArtworkModal(
       modalState.artworkImageSrc,
-      modalState.artworkCaptionHtml
+      modalState.artworkCaptionHtml,
+      modalState.artworkTileId
     );
 
+    if (historyMode === 'push') {
+      history.pushState(
+        modalState,
+        '',
+        window.location.href
+      );
+    }
+    else if (historyMode === 'replace') {
+      history.replaceState(
+        modalState,
+        '',
+        window.location.href
+      );
+    }
+  }
+
+  function openArtworkModal(tile) {
+    displayArtworkTile(tile, 'push');
+  }
+
+  function navigateArtwork(direction) {
+    if (!artworkModalIsOpen()) {
+      return false;
+    }
+
+    var tiles = getGalleryTiles();
+
+    if (tiles.length < 2) {
+      updateArtworkNavigation();
+      return false;
+    }
+
+    var currentIndex =
+      findCurrentArtworkIndex(tiles);
+
+    if (currentIndex === -1) {
+      updateArtworkNavigation();
+      return false;
+    }
+
+    var destinationIndex =
+      currentIndex + direction;
+
     /*
-      Add a same-page history entry. Pressing Back will return
-      to the category page state instead of leaving the page.
+      Navigation stops at the ends rather than wrapping.
+      This keeps mouse, keyboard, and swipe behavior aligned.
     */
-    history.pushState(
-      modalState,
-      '',
-      window.location.href
+    if (
+      destinationIndex < 0 ||
+      destinationIndex >= tiles.length
+    ) {
+      updateArtworkNavigation();
+      return false;
+    }
+
+    displayArtworkTile(
+      tiles[destinationIndex],
+      'replace'
     );
+
+    return true;
   }
 
   function closeArtworkModal() {
@@ -143,94 +454,361 @@
       return;
     }
 
+    if (
+      history.state &&
+      history.state.artworkModal
+    ) {
+      history.back();
+      return;
+    }
+
+    hideArtworkModal();
+  }
+
+  function resetArtworkTouch() {
+    touchStartX = null;
+    touchStartY = null;
+    touchStartTime = null;
+    touchStartedAtEdge = false;
+  }
+
+  prepareArtworkNavigation();
+  updateArtworkNavigation();
+
+  if (artworkGrid) {
+    artworkGrid.addEventListener(
+      'click',
+      function(e) {
+        var tile =
+          e.target.closest('.grid-tile');
+
+        if (
+          tile &&
+          artworkGrid.contains(tile)
+        ) {
+          openArtworkModal(tile);
+        }
+      }
+    );
+  }
+
+  modalClose.addEventListener(
+    'click',
+    closeArtworkModal
+  );
+
+  modal.addEventListener(
+    'click',
+    function(e) {
+      if (e.target === modal) {
+        closeArtworkModal();
+      }
+    }
+  );
+
+  document.addEventListener(
+    'keydown',
+    function(e) {
+      if (!artworkModalIsOpen()) {
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        closeArtworkModal();
+      }
+      else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateArtwork(-1);
+      }
+      else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateArtwork(1);
+      }
+    }
+  );
+
+  modal.addEventListener(
+    'touchstart',
+    function(e) {
+      if (
+        !artworkModalIsOpen() ||
+        e.touches.length !== 1
+      ) {
+        resetArtworkTouch();
+        return;
+      }
+
+      var touch = e.touches[0];
+      var edgeThreshold = 28;
+
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      touchStartTime = Date.now();
+
+      /*
+        Preserve browser navigation gestures that begin
+        at either extreme edge of the screen.
+      */
+      touchStartedAtEdge =
+        touch.clientX <= edgeThreshold ||
+        touch.clientX >=
+          window.innerWidth - edgeThreshold;
+    },
+    { passive: true }
+  );
+
+  modal.addEventListener(
+    'touchend',
+    function(e) {
+      if (
+        touchStartX === null ||
+        touchStartY === null ||
+        !e.changedTouches.length
+      ) {
+        resetArtworkTouch();
+        return;
+      }
+
+      var touch = e.changedTouches[0];
+
+      var deltaX =
+        touch.clientX - touchStartX;
+
+      var deltaY =
+        touch.clientY - touchStartY;
+
+      var absoluteX =
+        Math.abs(deltaX);
+
+      var absoluteY =
+        Math.abs(deltaY);
+
+      var gestureDuration =
+        Date.now() - touchStartTime;
+
+      var minimumDistance = 50;
+      var maximumDuration = 800;
+      var horizontalRatio = 1.2;
+
+      var isHorizontalSwipe =
+        !touchStartedAtEdge &&
+        gestureDuration <= maximumDuration &&
+        absoluteX >= minimumDistance &&
+        absoluteX >
+          absoluteY * horizontalRatio;
+
+      if (isHorizontalSwipe) {
+        if (deltaX < 0) {
+          navigateArtwork(1);
+        }
+        else {
+          navigateArtwork(-1);
+        }
+      }
+
+      resetArtworkTouch();
+    },
+    { passive: true }
+  );
+
+  modal.addEventListener(
+    'touchcancel',
+    resetArtworkTouch,
+    { passive: true }
+  );
+
+  window.addEventListener(
+    'popstate',
+    function(e) {
+      if (
+        e.state &&
+        e.state.artworkModal
+      ) {
+        showArtworkModal(
+          e.state.artworkImageSrc,
+          e.state.artworkCaptionHtml,
+          e.state.artworkTileId
+        );
+      }
+      else {
+        hideArtworkModal();
+      }
+    }
+  );
+
+  if (
+    history.state &&
+    history.state.artworkModal
+  ) {
+    showArtworkModal(
+      history.state.artworkImageSrc,
+      history.state.artworkCaptionHtml,
+      history.state.artworkTileId
+    );
+  }
+</script>
+  <script>
+  var talkModal = document.getElementById('talk-modal');
+  var talkBtn = document.getElementById('talk-btn');
+  var talkClose = document.getElementById('talk-modal-close');
+
+  function talkModalIsOpen() {
+    return (
+      talkModal &&
+      talkModal.getAttribute('aria-hidden') === 'false'
+    );
+  }
+
+  /*
+    Keep scrolling locked whenever either the artwork modal
+    or the Talk to me modal is open.
+  */
+  function syncModalScrollLock() {
+    var artworkModal =
+      document.getElementById('artwork-modal');
+
+    var artworkModalIsOpen =
+      artworkModal &&
+      artworkModal.getAttribute('aria-hidden') === 'false';
+
+    document.body.style.overflow =
+      artworkModalIsOpen || talkModalIsOpen()
+        ? 'hidden'
+        : '';
+  }
+
+  function showTalkModal() {
+    if (!talkModal) {
+      return;
+    }
+
+    talkModal.setAttribute('aria-hidden', 'false');
+    syncModalScrollLock();
+  }
+
+  function hideTalkModal() {
+    if (!talkModal) {
+      return;
+    }
+
+    talkModal.setAttribute('aria-hidden', 'true');
+    syncModalScrollLock();
+  }
+
+  function openTalkModal() {
+    if (talkModalIsOpen()) {
+      return;
+    }
+
+    showTalkModal();
+
     /*
-      Remove the modal's history entry. The popstate listener
-      below performs the actual visual closing.
+      Add one same-page history entry. Back will therefore
+      close the popup instead of leaving the current category.
     */
-    if (history.state && history.state.artworkModal) {
+    history.pushState(
+      {
+        talkModal: true
+      },
+      '',
+      window.location.href
+    );
+  }
+
+  function closeTalkModal() {
+    if (!talkModalIsOpen()) {
+      return;
+    }
+
+    /*
+      X, Escape, and backdrop clicks remove the modal's
+      history entry through the same mechanism as Back.
+    */
+    if (
+      history.state &&
+      history.state.talkModal
+    ) {
       history.back();
       return;
     }
 
     /*
-      Fallback for an open modal that has no matching history
-      state, such as after unusual browser restoration.
+      Fallback for unusual browser-restoration cases where
+      the modal is visible without a matching history state.
     */
-    hideArtworkModal();
+    hideTalkModal();
   }
 
-  document.querySelectorAll('.grid-tile').forEach(function(tile) {
-    tile.addEventListener('click', function() {
-      openArtworkModal(tile);
-    });
-  });
-
-  modalClose.addEventListener('click', closeArtworkModal);
-
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) {
-      closeArtworkModal();
-    }
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && artworkModalIsOpen()) {
-      closeArtworkModal();
-    }
-  });
-
-  /*
-    Back closes the modal without leaving the category.
-    Forward restores the modal and its selected image.
-  */
-  window.addEventListener('popstate', function(e) {
-    if (e.state && e.state.artworkModal) {
-      showArtworkModal(
-        e.state.artworkImageSrc,
-        e.state.artworkCaptionHtml
-      );
-    }
-    else {
-      hideArtworkModal();
-    }
-  });
-
-  /*
-    Restore an open modal if the browser restores a history
-    entry that already represents one.
-  */
-  if (history.state && history.state.artworkModal) {
-    showArtworkModal(
-      history.state.artworkImageSrc,
-      history.state.artworkCaptionHtml
+  if (talkBtn) {
+    talkBtn.addEventListener(
+      'click',
+      openTalkModal
     );
   }
-</script>
-  <script>
-    var talkModal = document.getElementById('talk-modal');
-    var talkBtn = document.getElementById('talk-btn');
-    var talkClose = document.getElementById('talk-modal-close');
 
-    talkBtn.addEventListener('click', function() {
-      talkModal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-    });
+  if (talkClose) {
+    talkClose.addEventListener(
+      'click',
+      closeTalkModal
+    );
+  }
 
-    talkClose.addEventListener('click', closeTalkModal);
+  if (talkModal) {
+    talkModal.addEventListener(
+      'click',
+      function(e) {
+        if (e.target === talkModal) {
+          closeTalkModal();
+        }
+      }
+    );
+  }
 
-    talkModal.addEventListener('click', function(e) {
-      if (e.target === talkModal) closeTalkModal();
-    });
-
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeTalkModal();
-    });
-
-    function closeTalkModal() {
-      talkModal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
+  document.addEventListener(
+    'keydown',
+    function(e) {
+      if (
+        e.key === 'Escape' &&
+        talkModalIsOpen()
+      ) {
+        closeTalkModal();
+      }
     }
-  </script>
+  );
+
+  /*
+    Back closes the popup while remaining on the category.
+    Forward restores it.
+  */
+  window.addEventListener(
+    'popstate',
+    function(e) {
+      if (
+        e.state &&
+        e.state.talkModal
+      ) {
+        showTalkModal();
+      }
+      else {
+        hideTalkModal();
+      }
+    }
+  );
+
+  /*
+    Restore the popup if the browser restores its history
+    entry after a reload or back-forward cache operation.
+  */
+  if (
+    history.state &&
+    history.state.talkModal
+  ) {
+    showTalkModal();
+  }
+  else {
+    hideTalkModal();
+  }
+</script>
   <script>
     document.querySelectorAll('.grid-tile img').forEach(function(img) {
       img.addEventListener('error', function() {

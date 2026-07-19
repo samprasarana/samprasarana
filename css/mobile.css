@@ -422,19 +422,18 @@
 
 /* MOBILE GRID OCCUPIED EDGES START */
 @media (max-width: 768px) {
-  /* Clear the desktop three-column right and bottom edges. */
   .main-content .grid > .grid-tile {
     border-right: 0 !important;
     border-bottom: 0 !important;
   }
 
-  /* Right edge of every complete mobile row and incomplete final row. */
+  /* Two-column right edge: painted exactly once. */
   .main-content .grid > .grid-tile:nth-child(2n),
   .main-content .grid > .grid-tile:last-child {
     border-right: 1px solid var(--color-accent) !important;
   }
 
-  /* Bottom edge only beneath the occupied tiles in the final row. */
+  /* Bottom edge beneath occupied tiles in the final row. */
   .main-content .grid > .grid-tile:nth-last-child(-n+2):nth-child(2n+1),
   .main-content .grid > .grid-tile:nth-last-child(-n+2):nth-child(2n+1) ~ .grid-tile {
     border-bottom: 1px solid var(--color-accent) !important;
@@ -453,3 +452,108 @@
   }
 }
 /* MOBILE GRID EXPOSED BOTTOM EDGE END */
+
+/* MOBILE VISIBLE CATEGORY NAV START */
+.mobile-category-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-category-nav {
+    order: 3;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 18px;
+    background: var(--color-white);
+    overflow: hidden;
+  }
+
+  .mobile-category-nav a {
+    display: inline-flex;
+    min-width: 0;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 0;
+    font-family: var(--font-display);
+    font-size: clamp(19px, 6.2vw, 28px);
+    line-height: 1;
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--color-accent);
+  }
+
+  .mobile-category-nav a.active {
+    font-family: var(--font-display-italic);
+    color: var(--color-white);
+    -webkit-text-stroke: 1px var(--color-accent);
+    paint-order: stroke fill;
+  }
+
+  .mobile-category-separator {
+    flex: 0 0 auto;
+    margin: 0 5px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1;
+    color: var(--color-accent);
+  }
+}
+/* MOBILE VISIBLE CATEGORY NAV END */
+
+/* MOBILE CATEGORY NAV BOTTOM DIVIDER START */
+@media (max-width: 768px) {
+  .mobile-category-nav {
+    border-bottom: 1px solid var(--color-accent);
+  }
+}
+/* MOBILE CATEGORY NAV BOTTOM DIVIDER END */
+
+/* MOBILE NAVIGATION REFINEMENTS START */
+@media (max-width: 768px) {
+  /*
+    Follow the visible mobile viewport as browser controls appear
+    and disappear. The first height is a fallback for older browsers.
+  */
+  .mobile-sidebar {
+    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+    box-sizing: border-box;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+    overflow: hidden;
+  }
+
+  /*
+    Let the category list scroll if vertical space is limited,
+    while keeping Talk to me inside the visible lower edge.
+  */
+  .mobile-sidebar-nav {
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .mobile-sidebar .talk-btn {
+    flex: 0 0 auto;
+    margin-top: auto !important;
+    margin-bottom: 0 !important;
+  }
+
+  /*
+    Match the separator's visual scale to the adjacent category words.
+  */
+  .mobile-category-separator {
+    font-family: var(--font-display);
+    font-size: clamp(19px, 6.2vw, 28px);
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    color: var(--color-accent);
+    -webkit-text-stroke: 0;
+  }
+}
+/* MOBILE NAVIGATION REFINEMENTS END */

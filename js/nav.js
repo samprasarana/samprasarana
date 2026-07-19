@@ -107,3 +107,50 @@ document.querySelectorAll('.section-rail a').forEach(function(link) {
     }
   });
 })();
+
+/* MOBILE VISIBLE CATEGORY NAV START */
+(function() {
+  var sourceNav = document.querySelector('.cat-nav');
+  var subheading = document.querySelector('.section-subheading');
+
+  if (
+    !sourceNav ||
+    !subheading ||
+    document.querySelector('.mobile-category-nav')
+  ) {
+    return;
+  }
+
+  var sourceLinks = Array.prototype.slice.call(
+    sourceNav.querySelectorAll('a')
+  );
+
+  if (!sourceLinks.length) {
+    return;
+  }
+
+  var visibleNav = document.createElement('nav');
+  visibleNav.className = 'mobile-category-nav';
+  visibleNav.setAttribute('aria-label', 'Picture categories');
+
+  sourceLinks.forEach(function(link, index) {
+    if (index > 0) {
+      var separator = document.createElement('span');
+      separator.className = 'mobile-category-separator';
+      separator.setAttribute('aria-hidden', 'true');
+      separator.textContent = '•';
+      visibleNav.appendChild(separator);
+    }
+
+    var clone = link.cloneNode(true);
+
+    if (clone.classList.contains('active')) {
+      clone.setAttribute('aria-current', 'page');
+    }
+
+    visibleNav.appendChild(clone);
+  });
+
+  subheading.insertAdjacentElement('afterend', visibleNav);
+})();
+/* MOBILE VISIBLE CATEGORY NAV END */
