@@ -652,13 +652,43 @@
   gap: 0 !important;
   padding: 0 !important;
   background: transparent !important;
-  border-right: 1px solid var(--color-accent);
-  border-bottom: 1px solid var(--color-accent);
+  border: 0 !important;
 }
 
 .main-content .grid > .grid-tile {
   border: 0 !important;
-  border-left: 1px solid var(--color-accent) !important;
   border-top: 1px solid var(--color-accent) !important;
+  border-left: 1px solid var(--color-accent) !important;
+}
+
+/* Right edge of every complete row and of an incomplete final row. */
+.main-content .grid > .grid-tile:nth-child(3n),
+.main-content .grid > .grid-tile:last-child {
+  border-right: 1px solid var(--color-accent) !important;
+}
+
+/* Bottom edge only beneath the tiles in the actual final row. */
+.main-content .grid > .grid-tile:nth-last-child(-n+3):nth-child(3n+1),
+.main-content .grid > .grid-tile:nth-last-child(-n+3):nth-child(3n+1) ~ .grid-tile {
+  border-bottom: 1px solid var(--color-accent) !important;
 }
 /* GRID SINGLE-PAINT BORDERS END */
+
+/* GRID EXPOSED BOTTOM EDGES START */
+@media (min-width: 769px) {
+  /*
+    If the last row contains one tile, columns 2 and 3 of the
+    preceding row need their own bottom borders.
+  */
+  .main-content .grid > .grid-tile:nth-child(3n+2):nth-last-child(3),
+  .main-content .grid > .grid-tile:nth-child(3n):nth-last-child(2),
+
+  /*
+    If the last row contains two tiles, column 3 of the
+    preceding row needs its own bottom border.
+  */
+  .main-content .grid > .grid-tile:nth-child(3n):nth-last-child(3) {
+    border-bottom: 1px solid var(--color-accent) !important;
+  }
+}
+/* GRID EXPOSED BOTTOM EDGES END */

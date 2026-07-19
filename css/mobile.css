@@ -419,3 +419,37 @@
   }
 }
 /* MOBILE GALLERY TOP BORDER FIX END */
+
+/* MOBILE GRID OCCUPIED EDGES START */
+@media (max-width: 768px) {
+  /* Clear the desktop three-column right and bottom edges. */
+  .main-content .grid > .grid-tile {
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+  }
+
+  /* Right edge of every complete mobile row and incomplete final row. */
+  .main-content .grid > .grid-tile:nth-child(2n),
+  .main-content .grid > .grid-tile:last-child {
+    border-right: 1px solid var(--color-accent) !important;
+  }
+
+  /* Bottom edge only beneath the occupied tiles in the final row. */
+  .main-content .grid > .grid-tile:nth-last-child(-n+2):nth-child(2n+1),
+  .main-content .grid > .grid-tile:nth-last-child(-n+2):nth-child(2n+1) ~ .grid-tile {
+    border-bottom: 1px solid var(--color-accent) !important;
+  }
+}
+/* MOBILE GRID OCCUPIED EDGES END */
+
+/* MOBILE GRID EXPOSED BOTTOM EDGE START */
+@media (max-width: 768px) {
+  /*
+    When the final row contains one tile, the second tile
+    in the preceding row has no tile beneath it.
+  */
+  .main-content .grid > .grid-tile:nth-child(2n):nth-last-child(2) {
+    border-bottom: 1px solid var(--color-accent) !important;
+  }
+}
+/* MOBILE GRID EXPOSED BOTTOM EDGE END */
