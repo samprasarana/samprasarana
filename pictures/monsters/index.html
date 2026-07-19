@@ -92,36 +92,120 @@
 
   <script src="../../js/nav.js"></script>
   <script>
-    var modal = document.getElementById('artwork-modal');
-    var modalImg = modal.querySelector('.modal-image');
-    var modalCaption = modal.querySelector('.modal-caption');
-    var modalClose = document.getElementById('modal-close');
+  var modal = document.getElementById('artwork-modal');
+  var modalImg = modal.querySelector('.modal-image');
+  var modalCaption = modal.querySelector('.modal-caption');
+  var modalClose = document.getElementById('modal-close');
 
-    document.querySelectorAll('.grid-tile').forEach(function(tile) {
-      tile.addEventListener('click', function() {
-        modalImg.src = tile.dataset.full;
-        modalCaption.innerHTML = tile.dataset.caption;
-        modal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-      });
-    });
+  function showArtworkModal(imageSrc, captionHtml) {
+    modalImg.src = imageSrc;
+    modalCaption.innerHTML = captionHtml || '';
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
 
-    modalClose.addEventListener('click', closeModal);
+  function hideArtworkModal() {
+    modal.setAttribute('aria-hidden', 'true');
+    modalImg.src = '';
+    modalCaption.innerHTML = '';
+    document.body.style.overflow = '';
+  }
 
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) closeModal();
-    });
+  function artworkModalIsOpen() {
+    return modal.getAttribute('aria-hidden') === 'false';
+  }
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeModal();
-    });
+  function openArtworkModal(tile) {
+    var modalState = {
+      artworkModal: true,
+      artworkImageSrc: tile.dataset.full,
+      artworkCaptionHtml: tile.dataset.caption || ''
+    };
 
-    function closeModal() {
-      modal.setAttribute('aria-hidden', 'true');
-      modalImg.src = '';
-      document.body.style.overflow = '';
+    showArtworkModal(
+      modalState.artworkImageSrc,
+      modalState.artworkCaptionHtml
+    );
+
+    /*
+      Add a same-page history entry. Pressing Back will return
+      to the category page state instead of leaving the page.
+    */
+    history.pushState(
+      modalState,
+      '',
+      window.location.href
+    );
+  }
+
+  function closeArtworkModal() {
+    if (!artworkModalIsOpen()) {
+      return;
     }
-  </script>
+
+    /*
+      Remove the modal's history entry. The popstate listener
+      below performs the actual visual closing.
+    */
+    if (history.state && history.state.artworkModal) {
+      history.back();
+      return;
+    }
+
+    /*
+      Fallback for an open modal that has no matching history
+      state, such as after unusual browser restoration.
+    */
+    hideArtworkModal();
+  }
+
+  document.querySelectorAll('.grid-tile').forEach(function(tile) {
+    tile.addEventListener('click', function() {
+      openArtworkModal(tile);
+    });
+  });
+
+  modalClose.addEventListener('click', closeArtworkModal);
+
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      closeArtworkModal();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && artworkModalIsOpen()) {
+      closeArtworkModal();
+    }
+  });
+
+  /*
+    Back closes the modal without leaving the category.
+    Forward restores the modal and its selected image.
+  */
+  window.addEventListener('popstate', function(e) {
+    if (e.state && e.state.artworkModal) {
+      showArtworkModal(
+        e.state.artworkImageSrc,
+        e.state.artworkCaptionHtml
+      );
+    }
+    else {
+      hideArtworkModal();
+    }
+  });
+
+  /*
+    Restore an open modal if the browser restores a history
+    entry that already represents one.
+  */
+  if (history.state && history.state.artworkModal) {
+    showArtworkModal(
+      history.state.artworkImageSrc,
+      history.state.artworkCaptionHtml
+    );
+  }
+</script>
   <script>
     var talkModal = document.getElementById('talk-modal');
     var talkBtn = document.getElementById('talk-btn');
