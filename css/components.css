@@ -853,3 +853,23 @@
   outline-offset: 2px;
 }
 /* ARTWORK MODAL CLOSE ICON END */
+
+/* DESKTOP MAGENTA GALLERY HOVER START */
+@media (min-width: 769px) and (hover: hover) and (pointer: fine) {
+  .main-content .grid > .grid-tile {
+    background: var(--color-accent);
+  }
+
+  .main-content .grid > .grid-tile img {
+    transition: opacity 0.16s ease;
+  }
+
+  .main-content .grid > .grid-tile:hover {
+    opacity: 1;
+  }
+
+  .main-content .grid > .grid-tile:hover img {
+    opacity: 0.68;
+  }
+}
+/* DESKTOP MAGENTA GALLERY HOVER END */
