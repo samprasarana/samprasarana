@@ -490,7 +490,7 @@
   .mobile-category-nav a.active {
     font-family: var(--font-display-italic);
     color: var(--color-white);
-    -webkit-text-stroke: 1px var(--color-accent);
+    -webkit-text-stroke: 2px var(--color-accent);
     paint-order: stroke fill;
   }
 
