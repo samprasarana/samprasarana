@@ -877,10 +877,13 @@
 /* DESKTOP GALLERY THIRD-ROW PEEK START */
 @media (min-width: 769px) {
   /*
-    Two rows occupy 94vh, leaving about 6vh visible.
-    That exposes roughly 12.8% of the following row.
+    Apply the shorter tiles only when a seventh tile exists,
+    meaning the three-column gallery has at least three rows.
   */
-  .detail-page .main-content .grid > .grid-tile {
+  .detail-page
+    .main-content
+    .grid:has(> .grid-tile:nth-child(7))
+    > .grid-tile {
     height: 47vh;
   }
 }
