@@ -557,3 +557,54 @@
   }
 }
 /* MOBILE NAVIGATION REFINEMENTS END */
+
+/* MOBILE TALK MODAL INTRO CENTER START */
+@media (max-width: 768px) {
+  /*
+    Center the modal composition on the intro text rather
+    than on the combined height of the image + text stack.
+  */
+  .talk-modal-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows:
+      minmax(0, 1fr)
+      auto
+      minmax(0, 1fr);
+    justify-content: stretch;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .talk-modal-img {
+    align-self: end;
+  }
+
+  .talk-modal-text--intro {
+    align-self: center;
+  }
+
+  .talk-modal-text--email {
+    align-self: start;
+  }
+}
+/* MOBILE TALK MODAL INTRO CENTER END */
+
+/* MOBILE TALK MODAL EMAIL EMPHASIS START */
+@media (max-width: 768px) {
+  .talk-modal-text--email {
+    font-size: clamp(1.5rem, 7.5vw, 2rem);
+  }
+}
+/* MOBILE TALK MODAL EMAIL EMPHASIS END */
+
+/* MOBILE TALK MODAL INTRO WIDTH START */
+@media (max-width: 768px) {
+  .talk-modal-text--intro {
+    width: 18ch;
+    max-width: 100%;
+    text-wrap: balance;
+    text-align: center;
+  }
+}
+/* MOBILE TALK MODAL INTRO WIDTH END */
