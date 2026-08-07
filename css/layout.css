@@ -24,7 +24,7 @@ html, body { margin: 0; padding: 0; height: 100%; background: var(--color-white)
 }
 
 .main-content {
-  flex: 1; 
+  flex: 1;
   /* padding: 20px 40px;*/
   min-width: 0;
   max-height: 100vw;
@@ -36,3 +36,64 @@ html, body { margin: 0; padding: 0; height: 100%; background: var(--color-white)
 .main-content .grid {
   gap: 0;
 }
+
+/* DESKTOP SPLIT SCROLL OWNERS START */
+@media (min-width: 769px) {
+  /*
+    The document remains free to scroll when content outside
+    the gallery exceeds the viewport.
+  */
+  body.detail-page {
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+
+  .detail-page .page-inner {
+    min-height: 100vh;
+    align-items: flex-start;
+    overflow: visible;
+  }
+
+  /*
+    The narrow section rail remains fixed beside both columns.
+  */
+  .detail-page .section-rail {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    max-height: 100vh;
+  }
+
+  /*
+    The navigation column determines whether the document
+    itself needs vertical scrolling.
+  */
+  .detail-page .left-col {
+    position: relative;
+    top: auto;
+    align-self: flex-start;
+    height: auto;
+    min-height: 100vh;
+    max-height: none;
+    overflow: visible;
+  }
+
+  /*
+    The gallery stays in place and owns only its own scrolling.
+    Its viewport is exactly the browser viewport height—not
+    the browser width.
+  */
+  .detail-page .main-content {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    min-height: 0;
+    max-height: 100vh;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+  }
+}
+/* DESKTOP SPLIT SCROLL OWNERS END */

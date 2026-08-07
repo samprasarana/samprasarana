@@ -32,27 +32,24 @@
   function updateScrollProgress() {
     animationFrame = null;
 
-    var maximumScroll =
+    /*
+      The gallery is exactly one viewport tall, so its own
+      scrollTop maps directly and proportionally to the rail.
+    */
+    var maximumScroll = Math.max(
+      0,
       scroller.scrollHeight -
-      scroller.clientHeight;
+        scroller.clientHeight
+    );
 
     var galleryRect =
       scroller.getBoundingClientRect();
 
-    /*
-      Position the rail eight pixels inside the gallery's
-      right border. Subtracting its width means the gap is
-      measured from the rail's right edge.
-    */
     var leftPosition =
       galleryRect.right -
       8 -
       rail.offsetWidth;
 
-    /*
-      Keep the rail vertically inside the visible portion
-      of the gallery rather than spanning unrelated areas.
-    */
     var visibleTop = Math.max(
       0,
       galleryRect.top
@@ -63,15 +60,11 @@
       galleryRect.bottom
     );
 
-    /*
-      Use half of the gallery's visible height and center
-      the shortened rail vertically within that area.
-    */
     var availableHeight = Math.max(
       0,
       visibleBottom -
-      visibleTop -
-      16
+        visibleTop -
+        16
     );
 
     var railHeight =
@@ -84,7 +77,10 @@
 
     rail.style.setProperty(
       "--scroll-progress-left",
-      Math.max(0, leftPosition).toFixed(2) + "px"
+      Math.max(
+        0,
+        leftPosition
+      ).toFixed(2) + "px"
     );
 
     rail.style.setProperty(
@@ -97,14 +93,11 @@
       railHeight.toFixed(2) + "px"
     );
 
-    var pointerIsOverGallery =
-      scroller.matches(":hover");
-
     var shouldShow =
       desktopQuery.matches &&
       maximumScroll > 2 &&
       railHeight > thumb.offsetHeight &&
-      pointerIsOverGallery;
+      scroller.matches(":hover");
 
     rail.classList.toggle(
       "is-visible",
@@ -118,24 +111,40 @@
     var availableTravel = Math.max(
       0,
       rail.clientHeight -
-      thumb.offsetHeight
+        thumb.offsetHeight
     );
 
-    var progress = Math.min(
-      1,
+    var currentScroll = Math.min(
+      maximumScroll,
       Math.max(
         0,
-        scroller.scrollTop /
-        maximumScroll
+        scroller.scrollTop
       )
     );
 
-    var position =
+    var progress;
+
+    if (currentScroll <= 1) {
+      progress = 0;
+    }
+    else if (
+      maximumScroll -
+        currentScroll <= 1
+    ) {
+      progress = 1;
+    }
+    else {
+      progress =
+        currentScroll /
+        maximumScroll;
+    }
+
+    var thumbPosition =
       availableTravel * progress;
 
     thumb.style.transform =
       "translate3d(0, " +
-      position.toFixed(2) +
+      thumbPosition.toFixed(2) +
       "px, 0)";
   }
 
@@ -164,6 +173,16 @@
   scroller.addEventListener(
     "pointerleave",
     queueUpdate
+  );
+
+  /*
+    Document scrolling does not affect gallery progress,
+    but the rail may need its screen position refreshed.
+  */
+  window.addEventListener(
+    "scroll",
+    queueUpdate,
+    { passive: true }
   );
 
   window.addEventListener(
