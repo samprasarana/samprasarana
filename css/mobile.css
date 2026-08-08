@@ -560,32 +560,32 @@
 
 /* MOBILE TALK MODAL INTRO CENTER START */
 @media (max-width: 768px) {
-  /*
-    Center the modal composition on the intro text rather
-    than on the combined height of the image + text stack.
-  */
   .talk-modal-inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows:
-      minmax(0, 1fr)
+      30%
       auto
-      minmax(0, 1fr);
-    justify-content: stretch;
+      1fr;
     justify-items: center;
     align-items: center;
   }
 
-  .talk-modal-img {
-    align-self: end;
-  }
-
   .talk-modal-text--intro {
-    align-self: center;
+    grid-row: 1;
+    align-self: end;
+    transform: translateY(-4vh);
   }
 
   .talk-modal-text--email {
-    align-self: start;
+    grid-row: 2;
+    align-self: center;
+  }
+
+  .talk-modal-img {
+    grid-row: 3;
+    align-self: center;
+    transform: translateY(5px);
   }
 }
 /* MOBILE TALK MODAL INTRO CENTER END */
