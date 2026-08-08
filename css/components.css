@@ -889,3 +889,36 @@
 }
 /* DESKTOP GALLERY THIRD-ROW PEEK END */
 
+
+/* DESKTOP TALK MODAL VERTICAL TEST START */
+@media (min-width: 769px) {
+  .talk-modal-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows:
+      minmax(0, 1fr)
+      auto
+      minmax(0, 1fr);
+    justify-items: center;
+    align-items: center;
+    transform: translateY(-8vh) !important;
+  }
+
+  .talk-modal-text--intro {
+    grid-row: 1;
+    align-self: end;
+    text-align: center;
+  }
+
+  .talk-modal-text--email {
+    grid-row: 2;
+    align-self: center;
+    text-align: center;
+  }
+
+  .talk-modal-img {
+    grid-row: 3;
+    align-self: start;
+  }
+}
+/* DESKTOP TALK MODAL VERTICAL TEST END */
