@@ -857,7 +857,7 @@
 /* DESKTOP MAGENTA GALLERY HOVER START */
 @media (min-width: 769px) and (hover: hover) and (pointer: fine) {
   .main-content .grid > .grid-tile {
-    background: var(--color-accent);
+    background: transparent;
   }
 
   .main-content .grid > .grid-tile img {
@@ -865,6 +865,7 @@
   }
 
   .main-content .grid > .grid-tile:hover {
+    background: var(--color-accent);
     opacity: 1;
   }
 
